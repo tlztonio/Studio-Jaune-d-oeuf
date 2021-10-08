@@ -8,17 +8,17 @@ import vertexShader2 from './shaders/vertex2.glsl'
 
 import { SmoothScroll } from './native.smooth.scroll.js';
 
-const smoothScroll = new SmoothScroll({
-  container: document.querySelector(".container"),
-  // round the threshold to 1 pixel
-  threshold: 1,
-  // use built-in raf loop
-  useRaf: true
-})
+// const smoothScroll = new SmoothScroll({
+//   container: document.querySelector(".container"),
+//   // round the threshold to 1 pixel
+//   threshold: 1,
+//   // use built-in raf loop
+//   useRaf: true
+// })
 
-window.addEventListener("resize", () => {
-  smoothScroll.resize()
-})
+// window.addEventListener("resize", () => {
+//   smoothScroll.resize()
+// })
 
 /**
  * Base
@@ -57,15 +57,15 @@ const updateAllMaterials = () => {
 /**
  * Environment map
  */
-const environmentMap = cubeTextureLoader.load([
-  '/textures/environmentMaps/0/px.jpg',
-  '/textures/environmentMaps/0/nx.jpg',
-  '/textures/environmentMaps/0/py.jpg',
-  '/textures/environmentMaps/0/ny.jpg',
-  '/textures/environmentMaps/0/pz.jpg',
-  '/textures/environmentMaps/0/nz.jpg'
-])
-environmentMap.encoding = THREE.sRGBEncoding
+// const environmentMap = cubeTextureLoader.load([
+//   '/textures/environmentMaps/0/px.jpg',
+//   '/textures/environmentMaps/0/nx.jpg',
+//   '/textures/environmentMaps/0/py.jpg',
+//   '/textures/environmentMaps/0/ny.jpg',
+//   '/textures/environmentMaps/0/pz.jpg',
+//   '/textures/environmentMaps/0/nz.jpg'
+// ])
+// environmentMap.encoding = THREE.sRGBEncoding
 // scene.background = environmentMap
 // scene.environment = environmentMap
 
@@ -73,15 +73,22 @@ environmentMap.encoding = THREE.sRGBEncoding
  * Material
  */
 // Textures
-const mapTexture = textureLoader.load('/models/Shirt/shinyshirttest.jpg')
-mapTexture.encoding = THREE.sRGBEncoding
-mapTexture.flipY = false
+// const mapTexture = textureLoader.load('/models/Shirt/shinyshirttest.jpg')
+// mapTexture.encoding = THREE.sRGBEncoding
+// mapTexture.flipY = false
+
+const colorTexture = textureLoader.load('/textures/basecolor.jpg')
+const heightTexture = textureLoader.load('/textures/height.png')
+const normalTexture = textureLoader.load('/textures/normal.jpg')
+const ambientOcclusionTexture = textureLoader.load('/textures/ambientOcclusion.jpg')
+const roughnessTexture = textureLoader.load('/textures/roughness.jpg')
 
 // Material
 const material = new THREE.MeshStandardMaterial({
-  map: mapTexture,
+  // map: colorTexture,
+  // normalMap: normalTexture,
 })
-material.roughness = 0.1
+// material.roughness = 0.1
 
 const depthMaterial = new THREE.MeshDepthMaterial(
   { depthPacking: THREE.RGBADepthPacking }
@@ -162,7 +169,7 @@ gltfLoader.load(
     egg = gltf.scene
     bottom = gltf.scene.children[0]
     top = gltf.scene.children[1]
-    // mesh.material = material
+    // egg.material = material
     // mesh.position.x = 1
     bottom.position.y = -0.4
     top.position.y = -0.4
@@ -176,7 +183,7 @@ gltfLoader.load(
     // gui.add(mesh.rotation, 'x').min(-10).max(10).step(0.1)
     // gui.add(mesh.rotation, 'y').min(-10).max(10).step(0.1)
     // gui.add(mesh.rotation, 'z').min(-10).max(10).step(0.1)
-    // bottom.customDepthMaterial = depthMaterial // a bouger avec els lignes du shader ?
+    egg.customDepthMaterial = depthMaterial // a bouger avec els lignes du shader ?
     scene.add(egg)
     // Update materials
     updateAllMaterials()
